@@ -7,7 +7,7 @@
     "dev": "concurrently -k -n \"BACKEND,RENDERER,ELECTRON\" -c \"yellow,blue,green\" \"npm run dev:backend\" \"npm run dev:renderer\" \"npm run dev:electron\"",
     "dev:renderer": "vite",
     "dev:backend": "node src/backend/server.js",
-    "dev:electron": "wait-on tcp:5173 tcp:5000 && electron .",
+    "dev:electron": "wait-on tcp:5173 tcp:5001 && electron .",
     "build": "vite build",
     "test": "vitest run"
   },

@@ -7,8 +7,10 @@ export function useRealtimeData() {
   const [latestAlert, setLatestAlert] = useState(null);
 
   useEffect(() => {
-    const socket = io('http://localhost:5000', {
-      reconnectionAttempts: 5,
+    // Connect through proxy or direct port 5001
+    const socketUrl = window.location.port === '5173' ? 'http://localhost:5001' : '/';
+    const socket = io(socketUrl, {
+      reconnectionAttempts: 10,
       timeout: 3000,
     });
 

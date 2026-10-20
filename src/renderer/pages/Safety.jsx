@@ -7,7 +7,7 @@ export default function Safety() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/safety/overview')
+    fetch('/api/safety/overview')
       .then((res) => res.json())
       .then((json) => {
         setSafety(json.data);
