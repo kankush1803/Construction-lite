@@ -69,4 +69,22 @@ describe('Backend: Projects API', () => {
       expect(delResponse.body.success).toBe(true);
     }
   });
+
+  it('POST /api/projects/:id/equipment should allocate equipment to project', async () => {
+    const response = await request(app)
+      .post('/api/projects/1/equipment')
+      .send({ equipmentIds: [1, 2] });
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(Array.isArray(response.body.data)).toBe(true);
+  });
+
+  it('POST /api/projects/:id/workers should assign workers to project', async () => {
+    const response = await request(app)
+      .post('/api/projects/1/workers')
+      .send({ workerIds: [1, 2, 3] });
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(Array.isArray(response.body.data)).toBe(true);
+  });
 });

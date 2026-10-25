@@ -17,62 +17,78 @@ export default function NotificationPanel() {
 
   return (
     <div className={`notification-panel ${notificationPanelOpen ? 'open' : ''}`}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-        <h3 style={{ fontSize: '1rem', fontWeight: 600 }}>Active Incident Feed</h3>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <div>
+          <h3 style={{ fontSize: '15px', fontWeight: 650, color: 'var(--color-text)' }}>Incident & Telemetry Feed</h3>
+          <p style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '2px' }}>Real-time sensor alarms and risk events</p>
+        </div>
         <button
-          className="btn btn-secondary"
-          style={{ padding: '0.2rem 0.6rem', fontSize: '0.8rem' }}
+          className="header-btn"
+          style={{ width: '32px', height: '32px', fontSize: '0.9rem' }}
           onClick={() => setNotificationPanelOpen(false)}
+          aria-label="Close notification panel"
         >
           ✕
         </button>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {alerts.length === 0 ? (
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>No recent alerts.</p>
+          <div className="empty-state" style={{ padding: '30px 10px' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '8px' }}>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <polyline points="9 12 11 14 15 10" />
+            </svg>
+            <span className="empty-state-title" style={{ fontSize: '13px' }}>No Active Incidents</span>
+            <span className="empty-state-desc">All systems and machinery operating within normal thresholds.</span>
+          </div>
         ) : (
           alerts.map((alert) => (
             <div
               key={alert.id}
               style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 'var(--radius-sm)',
-                padding: '0.85rem',
+                backgroundColor: 'var(--color-surface-subtle)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-button)',
+                padding: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '6px',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span
                   style={{
-                    fontSize: '0.7rem',
+                    fontSize: '11px',
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     color:
                       alert.severity === 'Critical'
-                        ? 'var(--accent-rose)'
+                        ? 'var(--color-danger)'
                         : alert.severity === 'Warning'
-                        ? 'var(--accent-amber)'
-                        : 'var(--accent-cyan)',
+                        ? 'var(--color-warning)'
+                        : 'var(--color-primary-dark)',
                   }}
                 >
                   {alert.severity} • {alert.type}
                 </span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
                   {alert.status}
                 </span>
               </div>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+              <p style={{ fontSize: '13px', color: 'var(--color-text)', lineHeight: 1.4 }}>
                 {alert.message}
               </p>
               {alert.status === 'Open' && (
-                <button
-                  className="btn btn-secondary"
-                  style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
-                  onClick={() => handleAcknowledge(alert.id)}
-                >
-                  Acknowledge
-                </button>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
+                  <button
+                    className="btn btn-secondary"
+                    style={{ fontSize: '11.5px', height: '28px', padding: '0 10px' }}
+                    onClick={() => handleAcknowledge(alert.id)}
+                  >
+                    Acknowledge
+                  </button>
+                </div>
               )}
             </div>
           ))

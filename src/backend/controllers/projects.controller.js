@@ -78,6 +78,62 @@ const projectsController = {
       next(error);
     }
   },
+
+  async allocateEquipment(req, res, next) {
+    try {
+      const { equipmentIds } = req.body;
+      const list = await projectService.allocateEquipment(req.params.id, equipmentIds);
+      res.json({ success: true, data: list, message: 'Equipment allocated successfully' });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async deallocateEquipment(req, res, next) {
+    try {
+      const list = await projectService.deallocateEquipment(req.params.id, req.params.equipmentId);
+      res.json({ success: true, data: list, message: 'Equipment deallocated successfully' });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async addEquipment(req, res, next) {
+    try {
+      const item = await projectService.createAndAllocateEquipment(req.params.id, req.body);
+      res.status(201).json({ success: true, data: item, message: 'New equipment created and allocated' });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async assignWorkers(req, res, next) {
+    try {
+      const { workerIds } = req.body;
+      const list = await projectService.assignWorkers(req.params.id, workerIds);
+      res.json({ success: true, data: list, message: 'Personnel assigned successfully' });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async unassignWorker(req, res, next) {
+    try {
+      const list = await projectService.unassignWorker(req.params.id, req.params.workerId);
+      res.json({ success: true, data: list, message: 'Personnel unassigned successfully' });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async addWorker(req, res, next) {
+    try {
+      const item = await projectService.createAndAssignWorker(req.params.id, req.body);
+      res.status(201).json({ success: true, data: item, message: 'New worker created and assigned' });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = projectsController;
