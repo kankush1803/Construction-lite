@@ -58,4 +58,12 @@ router.put('/:id', validateRequest(updateProjectSchema), projectsController.upda
 router.delete('/:id', projectsController.delete);
 router.patch('/:id/progress', validateRequest(updateProgressSchema), projectsController.updateProgress);
 
+// Resource Allocation & Personnel Assignment routes
+router.post('/:id/equipment', projectsController.allocateEquipment);
+router.delete('/:id/equipment/:equipmentId', projectsController.deallocateEquipment);
+router.post('/:id/equipment/new', projectsController.addEquipment);
+router.post('/:id/workers', projectsController.assignWorkers);
+router.delete('/:id/workers/:workerId', projectsController.unassignWorker);
+router.post('/:id/workers/new', projectsController.addWorker);
+
 module.exports = router;

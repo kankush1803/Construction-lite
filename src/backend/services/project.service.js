@@ -38,6 +38,50 @@ const projectService = {
   async updateProgress(id, progress) {
     return projectRepository.updateProgress(id, progress);
   },
+
+  async allocateEquipment(projectId, equipmentIds) {
+    const ids = Array.isArray(equipmentIds) ? equipmentIds : [equipmentIds];
+    const results = [];
+    for (const eqId of ids) {
+      if (eqId) {
+        const item = await equipmentRepository.allocateToProject(eqId, projectId);
+        results.push(item);
+      }
+    }
+    return equipmentRepository.findAll(projectId);
+  },
+
+  async deallocateEquipment(projectId, equipmentId) {
+    await equipmentRepository.deallocateFromProject(equipmentId);
+    return equipmentRepository.findAll(projectId);
+  },
+
+  async createAndAllocateEquipment(projectId, data) {
+    const item = await equipmentRepository.create({ ...data, project_id: projectId });
+    return item;
+  },
+
+  async assignWorkers(projectId, workerIds) {
+    const ids = Array.isArray(workerIds) ? workerIds : [workerIds];
+    const results = [];
+    for (const wId of ids) {
+      if (wId) {
+        const item = await manpowerRepository.assignToProject(wId, projectId);
+        results.push(item);
+      }
+    }
+    return manpowerRepository.findAll(projectId);
+  },
+
+  async unassignWorker(projectId, workerId) {
+    await manpowerRepository.unassignFromProject(workerId);
+    return manpowerRepository.findAll(projectId);
+  },
+
+  async createAndAssignWorker(projectId, data) {
+    const item = await manpowerRepository.create({ ...data, project_id: projectId });
+    return item;
+  },
 };
 
 module.exports = projectService;
